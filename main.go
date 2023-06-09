@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"html/template"
+	"log"
 	"os"
 )
 
@@ -26,7 +27,11 @@ type LinkConfig struct {
 }
 
 func main() {
-	yamlFile, err := os.ReadFile("links.yaml")
+	templateFile := os.Args[1]
+	valuesFile := os.Args[2]
+	outputFile := os.Args[3]
+
+	yamlFile, err := os.ReadFile(valuesFile)
 	if err != nil {
 		fmt.Printf("Error reading YAML file: %s\n", err)
 		return
@@ -38,9 +43,15 @@ func main() {
 		fmt.Printf("Error parsing YAML file: %s\n", err)
 	}
 
-	paths := []string{"index.html.tmpl"}
-	t := template.Must(template.New("index.html.tmpl").ParseFiles(paths...))
-	err = t.Execute(os.Stdout, linkConfig)
+	output, err := os.Create(outputFile)
+	if err != nil {
+		log.Println("create file: ", err)
+		return
+	}
+
+	paths := []string{templateFile}
+	t := template.Must(template.New(templateFile).ParseFiles(paths...))
+	err = t.Execute(output, linkConfig)
 	if err != nil {
 		panic(err)
 	}
