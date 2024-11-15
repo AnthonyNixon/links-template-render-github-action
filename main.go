@@ -31,7 +31,9 @@ func main() {
 	templateFile := os.Args[1]
 	valuesFile := os.Args[2]
 	outputFile := os.Args[3]
-	fmt.Printf("Parsing template '%s' with values in file '%s' to output file '%s'\n", templateFile, valuesFile, outputFile)
+	gitSha := os.Args[4]
+	gitSha = gitSha[len(gitSha)-4:]
+	fmt.Printf("[%s]: Parsing template '%s' with values in file '%s' to output file '%s'\n", gitSha, templateFile, valuesFile, outputFile)
 
 	yamlFile, err := os.ReadFile(valuesFile)
 	if err != nil {
@@ -47,11 +49,7 @@ func main() {
 		fmt.Printf("Error parsing YAML file: %s\n", err)
 	}
 
-	gitSha := os.Getenv("GIT_SHA")
-	if gitSha != "" {
-		linkConfig.GitSHA = gitSha[len(gitSha)-7:]
-		fmt.Printf("Using Git SHA: %s\n", linkConfig.GitSHA)
-	}
+	linkConfig.GitSHA = gitSha
 
 	output, err := os.Create(outputFile)
 	if err != nil {

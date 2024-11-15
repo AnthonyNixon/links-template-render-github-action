@@ -17,7 +17,7 @@ inputs:
   gitSHA:
     description: "Optional cache-busting Git SHA to use on links"
     required: false
-    default: ""
+    default: "1"
 
 runs:
   using: docker
