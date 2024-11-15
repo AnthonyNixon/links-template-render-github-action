@@ -27,7 +27,7 @@ type LinkConfig struct {
 }
 
 func main() {
-	fmt.Printf("Argunments received: %s\n", os.Args)
+	fmt.Printf("Arguments received: %s\n", os.Args)
 	templateFile := os.Args[1]
 	valuesFile := os.Args[2]
 	outputFile := os.Args[3]
@@ -56,4 +56,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Printf("Successfully created %s\n", outputFile)
 }
