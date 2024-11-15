@@ -24,7 +24,7 @@ type LinkConfig struct {
 	Name     string `yaml:"name" json:"name"`
 	Location string `yaml:"location" json:"location"`
 	Links    []Link `yaml:"links" json:"links"`
-	GitSha   string `yaml:"git_sha" json:"git_sha"`
+	GitSHA   string `yaml:"git_sha" json:"git_sha"`
 }
 
 func main() {
@@ -47,9 +47,10 @@ func main() {
 		fmt.Printf("Error parsing YAML file: %s\n", err)
 	}
 
-	linkConfig.GitSha = os.Getenv("GIT_SHA")
-	if linkConfig.GitSha != "" {
-		fmt.Printf("Using Git SHA: %s\n", linkConfig.GitSha)
+	gitSha := os.Getenv("GIT_SHA")
+	if gitSha != "" {
+		linkConfig.GitSHA = gitSha[len(gitSha)-7:]
+		fmt.Printf("Using Git SHA: %s\n", linkConfig.GitSHA)
 	}
 
 	output, err := os.Create(outputFile)
