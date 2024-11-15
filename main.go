@@ -38,6 +38,8 @@ func main() {
 		return
 	}
 
+	fmt.Printf("values file contents: %s\n", string(yamlFile))
+
 	var linkConfig LinkConfig
 	err = yaml.Unmarshal(yamlFile, &linkConfig)
 	if err != nil {
