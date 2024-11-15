@@ -14,6 +14,10 @@ inputs:
     description: "File to output rendered content to"
     required: false
     default: "index.html"
+  gitSHA:
+    description: "Optional cache-busting Git SHA to use on links"
+    required: false
+    default: ""
 
 runs:
   using: docker
@@ -22,3 +26,4 @@ runs:
     - ${{ inputs.template }}
     - ${{ inputs.values }}
     - ${{ inputs.outputFile }}
+    - ${{ inputs.gitSHA }}
