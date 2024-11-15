@@ -24,13 +24,14 @@ type LinkConfig struct {
 	Name     string `yaml:"name" json:"name"`
 	Location string `yaml:"location" json:"location"`
 	Links    []Link `yaml:"links" json:"links"`
+	GitSha   string `yaml:"git_sha" json:"git_sha"`
 }
 
 func main() {
-	fmt.Printf("Arguments received: %s\n", os.Args)
 	templateFile := os.Args[1]
 	valuesFile := os.Args[2]
 	outputFile := os.Args[3]
+	fmt.Printf("Parsing template '%s' with values in file '%s' to output file '%s'\n", templateFile, valuesFile, outputFile)
 
 	yamlFile, err := os.ReadFile(valuesFile)
 	if err != nil {
@@ -38,12 +39,17 @@ func main() {
 		return
 	}
 
-	fmt.Printf("values file contents: %s\n", string(yamlFile))
+	fmt.Printf("values file contents:\n%s\n", string(yamlFile))
 
 	var linkConfig LinkConfig
 	err = yaml.Unmarshal(yamlFile, &linkConfig)
 	if err != nil {
 		fmt.Printf("Error parsing YAML file: %s\n", err)
+	}
+
+	linkConfig.GitSha = os.Getenv("GIT_SHA")
+	if linkConfig.GitSha != "" {
+		fmt.Printf("Using Git SHA: %s\n", linkConfig.GitSha)
 	}
 
 	output, err := os.Create(outputFile)
@@ -59,5 +65,5 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("Successfully created %s\n", outputFile)
+	fmt.Printf("Successfully rendered %s\n", outputFile)
 }
