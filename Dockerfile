@@ -8,4 +8,4 @@ RUN GOOS=linux GOARCH=amd64 go build -o /bin/links-template-render-github-action
 FROM alpine:3.18
 WORKDIR /root/
 COPY --from=builder /bin/links-template-render-github-action ./
-ENTRYPOINT ["./links-template-render-github-action"]
+ENTRYPOINT ["/root/links-template-render-github-action"]
