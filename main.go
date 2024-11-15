@@ -32,7 +32,7 @@ func main() {
 	valuesFile := os.Args[2]
 	outputFile := os.Args[3]
 	gitSha := os.Args[4]
-	gitSha = gitSha[len(gitSha)-4:]
+	gitSha = gitSha[0:7]
 	fmt.Printf("[%s]: Parsing template '%s' with values in file '%s' to output file '%s'\n", gitSha, templateFile, valuesFile, outputFile)
 
 	yamlFile, err := os.ReadFile(valuesFile)
